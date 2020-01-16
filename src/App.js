@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useContext } from "react";
+import GlobalContext from "./Providers/Context.js";
 
-function App() {
+import HomePage from "./HomePage/HomePage";
+
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import LoadingScreen from "./LoadingScreen/LoadingScreen.js";
+
+export default function App() {
+  let value = useContext(GlobalContext);
+
+  const theme = createMuiTheme({
+    palette: {
+      type: value.dark ? "dark" : "light",
+      primary: { main: "#2589BD" },
+      secondary: { main: "#38686A" }
+    },
+    status: {
+      danger: "orange"
+    }
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GlobalContext.Consumer>
+        {context => {
+          context.dark
+            ? (document.body.style = "background: #201f1f;")
+            : (document.body.style = "background: white;");
+          return context.ready ? (
+            <div>
+              <HomePage></HomePage>
+              <footer className="vs"></footer>
+            </div>
+          ) : (
+            <LoadingScreen></LoadingScreen>
+          );
+        }}
+      </GlobalContext.Consumer>
+    </ThemeProvider>
   );
 }
-
-export default App;
