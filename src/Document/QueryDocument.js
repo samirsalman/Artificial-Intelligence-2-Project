@@ -114,10 +114,10 @@ export default class QueryDocument extends Component {
             >
               DOC
             </Avatar>
-            <h3>{this.props.document.title.value}</h3>
+            <h3>{this.props.document.title}</h3>
 
-            <p>{this.props.document.authors.value}</p>
-            <p>ISBN: {this.props.document.isbn.value}</p>
+            <p>{this.props.document.authors}</p>
+            <p>ISBN: {this.props.document.isbn}</p>
           </CardContent>
           <CardActions>
             <Grid container alignItems="center" justify="center">
