@@ -8,9 +8,11 @@ export default class GlobalProvider extends Component {
     ready: false,
     dark: false,
     open: false,
+    orderBy: 0,
     all: [],
     current: 0,
-    results: []
+    results: [],
+    favorites: []
   };
 
   componentDidMount() {
@@ -40,41 +42,42 @@ export default class GlobalProvider extends Component {
 
   queryRequest = (e, search) => {
     e.preventDefault();
-
     if (search !== "") {
       console.log(e);
-
       this.setState({
         results: []
       });
+      if (this.state.orderBy !== 0) {
+        var orderOption = this.state.orderBy;
+      }
       console.log("REQUest");
       if (this.state.current === 0) {
-        Axios.get(`http://localhost:3000/query/searchByTitle/${search}`).then(
-          res => {
-            console.log(res);
-            this.setState({
-              results: res.data
-            });
-          }
-        );
+        Axios.get(
+          `http://192.168.1.65:3000/query/searchByTitle/${search}/${orderOption}`
+        ).then(res => {
+          console.log(res);
+          this.setState({
+            results: res.data
+          });
+        });
       } else if (this.state.current === 1) {
-        Axios.get(`http://localhost:3000/query/searchByAuthor/${search}`).then(
-          res => {
-            console.log(res);
-            this.setState({
-              results: res.data
-            });
-          }
-        );
+        Axios.get(
+          `http://192.168.1.65:3000/query/searchByAuthor/${search}/${orderOption}`
+        ).then(res => {
+          console.log(res);
+          this.setState({
+            results: res.data
+          });
+        });
       } else {
-        Axios.get(`http://localhost:3000/query/searchByIsbn/${search}`).then(
-          res => {
-            console.log(res);
-            this.setState({
-              results: res.data
-            });
-          }
-        );
+        Axios.get(
+          `http://192.168.1.65:3000/query/searchByIsbn/${search}/${orderOption}`
+        ).then(res => {
+          console.log(res);
+          this.setState({
+            results: res.data
+          });
+        });
       }
     } else {
       this.setState({
@@ -84,7 +87,7 @@ export default class GlobalProvider extends Component {
   };
 
   initialRequest = e => {
-    Axios.get(`http://localhost:3000/query/all`)
+    Axios.get(`http://192.168.1.65:3000/query/all`)
       .then(res => {
         this.setState({
           results: res.data,
@@ -105,6 +108,11 @@ export default class GlobalProvider extends Component {
         return;
       });
   };
+  handleChange = event => {
+    console.log(event.target.value);
+
+    this.setState({ orderBy: event.target.value });
+  };
 
   render() {
     return (
@@ -115,7 +123,10 @@ export default class GlobalProvider extends Component {
           dark: this.state.dark,
           ready: this.state.ready,
           current: this.state.current,
+          orderBy: this.state.orderBy,
           initialRequest: e => this.initialRequest(e),
+
+          handleChange: e => this.handleChange(e),
           queryRequest: (e, query) => this.queryRequest(e, query),
           handleTabChange: (e, id) => this.handleTabChange(e, id),
           changeTheme: e => this.changeTheme(e),

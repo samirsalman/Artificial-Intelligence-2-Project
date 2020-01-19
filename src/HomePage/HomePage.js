@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { ReactComponent as Moon } from "../assets/moon.svg";
 import "../App.css";
 import GlobalContext from "../Providers/Context";
+import SearchBar from "../SearchBar/SearchBar";
 import {
   Tabs,
   Tab,
@@ -12,7 +13,7 @@ import {
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { WbSunny, Search } from "@material-ui/icons";
+import { WbSunny, Search, Add } from "@material-ui/icons";
 import QueryDocument from "../Document/QueryDocument";
 
 export default function HomePage() {
@@ -39,7 +40,7 @@ export default function HomePage() {
           <header className="App-header">
             <Button
               onClick={context.changeTheme}
-              aria-label="add"
+              aria-label="theme"
               style={{
                 position: "absolute",
                 top: 8,
@@ -52,6 +53,18 @@ export default function HomePage() {
               ) : (
                 <WbSunny></WbSunny>
               )}
+            </Button>
+            <Button
+              onClick={context.changeTheme}
+              aria-label="add"
+              style={{
+                position: "absolute",
+                top: 8,
+                left: 8,
+                color: "#fff"
+              }}
+            >
+              <Add></Add>
             </Button>
             <h1>Authors Knowledge</h1>
             <p>Find your documents</p>
@@ -82,6 +95,7 @@ export default function HomePage() {
               <Tab label="isbn" value={2} />
             </Tabs>
           </header>
+          <SearchBar></SearchBar>
 
           <Grid container alignItems="center" justify="space-between">
             {context.results.map(e => (
