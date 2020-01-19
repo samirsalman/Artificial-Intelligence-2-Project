@@ -53,7 +53,7 @@ export default class GlobalProvider extends Component {
       console.log("REQUest");
       if (this.state.current === 0) {
         Axios.get(
-          `http://192.168.1.65:3000/query/searchByTitle/${search}/${orderOption}`
+          `http://localhost:3000/query/searchByTitle/${search}/${orderOption}`
         ).then(res => {
           console.log(res);
           this.setState({
@@ -62,7 +62,7 @@ export default class GlobalProvider extends Component {
         });
       } else if (this.state.current === 1) {
         Axios.get(
-          `http://192.168.1.65:3000/query/searchByAuthor/${search}/${orderOption}`
+          `http://localhost:3000/query/searchByAuthor/${search}/${orderOption}`
         ).then(res => {
           console.log(res);
           this.setState({
@@ -71,7 +71,7 @@ export default class GlobalProvider extends Component {
         });
       } else {
         Axios.get(
-          `http://192.168.1.65:3000/query/searchByIsbn/${search}/${orderOption}`
+          `http://localhost:3000/query/searchByIsbn/${search}/${orderOption}`
         ).then(res => {
           console.log(res);
           this.setState({
@@ -87,7 +87,7 @@ export default class GlobalProvider extends Component {
   };
 
   initialRequest = e => {
-    Axios.get(`http://192.168.1.65:3000/query/all`)
+    Axios.get(`http://localhost:3000/query/all`)
       .then(res => {
         this.setState({
           results: res.data,
