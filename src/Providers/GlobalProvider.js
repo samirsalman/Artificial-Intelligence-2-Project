@@ -9,6 +9,9 @@ export default class GlobalProvider extends Component {
     dark: false,
     open: false,
     orderBy: 0,
+    year: null,
+    lastSearch: "",
+    filtersOpen: false,
     all: [],
     current: 0,
     results: [],
@@ -40,54 +43,91 @@ export default class GlobalProvider extends Component {
     this.setState({ results: this.state.all });
   };
 
-  queryRequest = (e, search) => {
-    e.preventDefault();
-    if (search !== "") {
-      console.log(e);
-      this.setState({
-        results: []
-      });
+  queryRequest = (e, search, functional = false) => {
+    if (e !== null) {
+      e.preventDefault();
+    }
+    if (!functional) {
+      var options = "";
       if (this.state.orderBy !== 0) {
-        var orderOption = this.state.orderBy;
+        options = `?orderBy=${this.state.orderBy}`;
       }
-      console.log("REQUest");
-      if (this.state.current === 0) {
-        Axios.get(
-          `http://192.168.1.65:3000/query/searchByTitle/${search}/${orderOption}`
-        ).then(res => {
-          console.log(res);
-          this.setState({
-            results: res.data
-          });
+      if (this.state.year !== null) {
+        if (this.state.orderBy === 0) {
+          options = options + `?year=${this.state.year}`;
+        } else {
+          options = options + `&year=${this.state.year}`;
+        }
+      }
+      if (search !== "") {
+        console.log(e);
+        this.setState({
+          results: []
         });
-      } else if (this.state.current === 1) {
-        Axios.get(
-          `http://192.168.1.65:3000/query/searchByAuthor/${search}/${orderOption}`
-        ).then(res => {
-          console.log(res);
+
+        console.log("REQUest");
+        if (this.state.current === 0) {
           this.setState({
-            results: res.data
+            lastSearch: `http://localhost:3000/query/searchByTitle/${search}${options}`
           });
-        });
+
+          Axios.get(
+            `http://localhost:3000/query/searchByTitle/${search}${options}`
+          ).then(res => {
+            console.log(res);
+            this.setState({
+              results: res.data
+            });
+          });
+        } else if (this.state.current === 1) {
+          this.setState({
+            lastSearch: `http://localhost:3000/query/searchByAuthor/${search}${options}`
+          });
+
+          Axios.get(
+            `http://localhost:3000/query/searchByAuthor/${search}${options}`
+          ).then(res => {
+            console.log(res);
+            this.setState({
+              results: res.data
+            });
+          });
+        } else {
+          this.setState({
+            lastSearch: `http://localhost:3000/query/searchByIsbn/${search}${options}`
+          });
+
+          Axios.get(
+            `http://localhost:3000/query/searchByIsbn/${search}${options}`
+          ).then(res => {
+            console.log(res);
+            this.setState({
+              results: res.data
+            });
+          });
+        }
       } else {
-        Axios.get(
-          `http://192.168.1.65:3000/query/searchByIsbn/${search}/${orderOption}`
-        ).then(res => {
-          console.log(res);
-          this.setState({
-            results: res.data
-          });
+        this.setState({
+          lastSearch: `http://localhost:3000/query/all`,
+          results: this.state.all
         });
       }
     } else {
-      this.setState({
-        results: this.state.all
+      console.log(search);
+
+      Axios.get(search).then(res => {
+        console.log(res);
+        this.setState({
+          results: res.data
+        });
       });
     }
   };
 
   initialRequest = e => {
-    Axios.get(`http://192.168.1.65:3000/query/all`)
+    this.setState({ lastSearch: `http://localhost:3000/query/all` });
+
+    Axios.get(`http://localhost:3000/query/all`)
       .then(res => {
         this.setState({
           results: res.data,
@@ -109,9 +149,52 @@ export default class GlobalProvider extends Component {
       });
   };
   handleChange = event => {
-    console.log(event.target.value);
-
     this.setState({ orderBy: event.target.value });
+  };
+
+  openFilters = event => {
+    this.setState({ filtersOpen: true });
+    console.log(this.state.filtersOpen);
+  };
+
+  closeFilters = event => {
+    if (typeof event == "number") {
+      this.state.year = event;
+      var temp = "";
+      console.log(this.state.year);
+
+      if (this.state.lastSearch.includes("year=")) {
+        var ls = this.state.lastSearch;
+        ls.replace("year=", `year=${event}`);
+        temp = ls.substring(0, ls.length - 3);
+        if (this.state.lastSearch.includes("orderBy=")) {
+          temp = `${this.state.lastSearch}&year=${event}`;
+        }
+      } else {
+        if (this.state.lastSearch.includes("orderBy=")) {
+          temp = `${this.state.lastSearch}&year=${event}`;
+        } else {
+          temp = `${this.state.lastSearch}?year=${event}`;
+
+          console.log("EVENT= ", `${temp}?year=${event}`);
+        }
+      }
+      this.queryRequest(null, temp, true);
+    }
+    this.setState({
+      filtersOpen: false
+    });
+  };
+
+  removeYear = e => {
+    console.log("REMOVE");
+
+    this.setState({
+      year: null
+    });
+    console.log(this.state.lastSearch);
+
+    this.queryRequest(null, this.state.lastSearch, true);
   };
 
   render() {
@@ -121,11 +204,15 @@ export default class GlobalProvider extends Component {
           all: this.state.all,
           results: this.state.results,
           dark: this.state.dark,
+          year: this.state.year,
           ready: this.state.ready,
           current: this.state.current,
           orderBy: this.state.orderBy,
+          filtersOpen: this.state.filtersOpen,
           initialRequest: e => this.initialRequest(e),
-
+          removeYear: e => this.removeYear(e),
+          closeFilters: e => this.closeFilters(e),
+          openFilters: e => this.openFilters(e),
           handleChange: e => this.handleChange(e),
           queryRequest: (e, query) => this.queryRequest(e, query),
           handleTabChange: (e, id) => this.handleTabChange(e, id),
