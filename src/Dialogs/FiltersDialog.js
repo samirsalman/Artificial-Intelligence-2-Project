@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 
 export default function FiltersDialog() {
-  const [year, setYear] = useState(1920);
+  const [year, setYear] = useState([1920, 2020]);
 
   var handleChange = (event, newValue) => {
     console.log(newValue);
@@ -40,11 +40,14 @@ export default function FiltersDialog() {
             <DialogContentText>
               Aggiungi i filtri da inserire nella ricerca
             </DialogContentText>
-            <p>Anno: {year}</p>
+            <p>
+              Dal: {year[0]} al {year[1]}
+            </p>
             <Slider
               valueLabelDisplay="auto"
               value={year}
               onChange={(e, v) => handleChange(e, v)}
+              aria-labelledby="range-slider"
               min={1900}
               max={2020}
             />

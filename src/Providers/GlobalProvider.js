@@ -155,7 +155,10 @@ export default class GlobalProvider extends Component {
     console.log(this.state.filtersOpen);
   };
 
-  closeFilters = event => {
+  closeFilters = yearRange => {
+    var event = yearRange[0] + "-" + yearRange[1];
+    console.log(event);
+
     if (typeof event == "number") {
       this.state.year = event;
       var temp = "";
