@@ -204,30 +204,32 @@ export default class GlobalProvider extends Component {
 
   removeYear = e => {
     this.state.year = null;
-    this.queryRequest(null, this.buildQuery(), true);
+    var temp = this.buildQuery();
+    this.queryRequest(null, temp, true);
   };
 
   removeType = e => {
     this.state.type = null;
-    this.queryRequest(null, this.buildQuery(), true);
+    var temp = this.buildQuery();
+    this.queryRequest(null, temp, true);
   };
 
-  buildQuery() {
+  buildQuery = () => {
     var temp = this.state.lastSearch;
     temp += "?";
     if (this.state.year !== null) {
       if (this.state.year[0] !== undefined) {
-        temp += `year=${this.state.year}`;
+        temp += `year=${this.state.year}&`;
       }
     }
     if (this.state.orderBy !== 0) {
       temp += `orderBy=${this.state.orderBy}&`;
     }
     if (this.state.type !== null) {
-      temp += `type=${this.state.type}`;
+      temp += `type=${this.state.type}&`;
     }
     return temp;
-  }
+  };
 
   render() {
     return (
