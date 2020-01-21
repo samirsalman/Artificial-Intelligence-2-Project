@@ -10,6 +10,7 @@ export default class GlobalProvider extends Component {
     open: false,
     orderBy: 0,
     year: null,
+    type: null,
     lastSearch: "",
     filtersOpen: false,
     all: [],
@@ -68,20 +69,20 @@ export default class GlobalProvider extends Component {
         console.log("REQUest");
         if (this.state.current === 0) {
           this.setState({
-            lastSearch: `http://localhost:3000/query/searchByTitle/${search}${options}`
+            lastSearch: `http://localhost:3000/query/searchByTitle/${search}`
           });
 
-          Axios.get(
-            `http://localhost:3000/query/searchByTitle/${search}${options}`
-          ).then(res => {
-            console.log(res);
-            this.setState({
-              results: res.data
-            });
-          });
+          Axios.get(`http://localhost:3000/query/searchByTitle/${search}`).then(
+            res => {
+              console.log(res);
+              this.setState({
+                results: res.data
+              });
+            }
+          );
         } else if (this.state.current === 1) {
           this.setState({
-            lastSearch: `http://localhost:3000/query/searchByAuthor/${search}${options}`
+            lastSearch: `http://localhost:3000/query/searchByAuthor/${search}`
           });
 
           Axios.get(
@@ -94,7 +95,7 @@ export default class GlobalProvider extends Component {
           });
         } else {
           this.setState({
-            lastSearch: `http://localhost:3000/query/searchByIsbn/${search}${options}`
+            lastSearch: `http://localhost:3000/query/searchByIsbn/${search}`
           });
 
           Axios.get(
@@ -156,53 +157,77 @@ export default class GlobalProvider extends Component {
     console.log(this.state.filtersOpen);
   };
 
-  closeFilters = yearRange => {
-    if (yearRange[0] != undefined) {
-      var event = yearRange[0] + "-" + yearRange[1];
-      console.log(event);
+  closeFilters = (yearRange, type) => {
+    var event = yearRange[0] + "-" + yearRange[1];
+    console.log(type);
+    console.log("YEAR RANGE", yearRange);
 
-      this.state.year = event;
-      var temp = "";
-      console.log(this.state.year);
-
-      if (this.state.lastSearch.includes("year=")) {
-        if (this.state.lastSearch.includes("orderBy=")) {
-          temp = `${this.state.lastSearch}&year=${event}`;
-        } else {
-          var ls = this.state.lastSearch;
-          ls.replace("year=", `year=${event}`);
-          temp = ls.substring(0, ls.length - 5);
-        }
-      } else {
-        if (this.state.lastSearch.includes("orderBy=")) {
-          temp = `${this.state.lastSearch}&year=${event}`;
-        } else {
-          temp = `${this.state.lastSearch}?&year=${event}`;
-        }
-      }
-      this.queryRequest(null, temp, true);
+    if (type === "All") {
+      this.state.type = null;
+    } else {
+      this.state.type = type;
     }
+
+    if (yearRange[0] === 1970 && yearRange[1] === 2020) {
+      this.state.year = null;
+    } else {
+      this.state.year = event;
+    }
+    var temp = this.state.lastSearch;
+
+    temp += "?";
+    if (this.state.year !== null) {
+      if (this.state.year[0] !== undefined) {
+        temp += `year=${event}&`;
+      }
+    }
+    if (this.state.orderBy !== 0) {
+      temp += `orderBy=${this.state.orderBy}&`;
+    }
+    if (this.state.type !== null) {
+      temp += `type=${this.state.type}`;
+    }
+
+    console.log(temp);
+    this.queryRequest(null, temp, true);
+
+    this.setState({
+      filtersOpen: false
+    });
+  };
+
+  closeWindow = e => {
     this.setState({
       filtersOpen: false
     });
   };
 
   removeYear = e => {
-    console.log("REMOVE");
-
-    this.setState({
-      year: null
-    });
-    if (this.state.lastSearch.includes("?year=")) {
-      this.state.lastSearch = this.state.lastSearch.substring(
-        0,
-        this.state.lastSearch.length - 14
-      );
-    }
-    console.log(this.state.lastSearch);
-
-    this.queryRequest(null, this.state.lastSearch, true);
+    this.state.year = null;
+    this.queryRequest(null, this.buildQuery(), true);
   };
+
+  removeType = e => {
+    this.state.type = null;
+    this.queryRequest(null, this.buildQuery(), true);
+  };
+
+  buildQuery() {
+    var temp = this.state.lastSearch;
+    temp += "?";
+    if (this.state.year !== null) {
+      if (this.state.year[0] !== undefined) {
+        temp += `year=${this.state.year}`;
+      }
+    }
+    if (this.state.orderBy !== 0) {
+      temp += `orderBy=${this.state.orderBy}&`;
+    }
+    if (this.state.type !== null) {
+      temp += `type=${this.state.type}`;
+    }
+    return temp;
+  }
 
   render() {
     return (
@@ -211,14 +236,18 @@ export default class GlobalProvider extends Component {
           all: this.state.all,
           results: this.state.results,
           dark: this.state.dark,
+          type: this.state.type,
           year: this.state.year,
           ready: this.state.ready,
           current: this.state.current,
           orderBy: this.state.orderBy,
           filtersOpen: this.state.filtersOpen,
+          removeType: e => this.removeType(e),
+          closeWindow: e => this.closeWindow(e),
+
           initialRequest: e => this.initialRequest(e),
           removeYear: e => this.removeYear(e),
-          closeFilters: e => this.closeFilters(e),
+          closeFilters: (y, t) => this.closeFilters(y, t),
           openFilters: e => this.openFilters(e),
           handleChange: e => this.handleChange(e),
           queryRequest: (e, query) => this.queryRequest(e, query),

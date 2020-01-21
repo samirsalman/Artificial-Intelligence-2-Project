@@ -117,6 +117,14 @@ export default function HomePage() {
               onDelete={context.removeYear}
             />
           ) : null}
+
+          {context.type !== null ? (
+            <Chip
+              avatar={<Avatar alt="type">Y</Avatar>}
+              label={"Tipo: " + context.type}
+              onDelete={context.removeType}
+            />
+          ) : null}
           <Grid container alignItems="center" justify="space-between">
             {context.results.map(e => (
               <QueryDocument key={i++} document={e}></QueryDocument>

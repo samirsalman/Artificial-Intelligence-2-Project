@@ -11,19 +11,28 @@ import {
   Button,
   DialogTitle,
   DialogContentText,
-  TextField,
+  InputLabel,
+  Select,
+  MenuItem,
   Slider,
   DialogContent,
   DialogActions
 } from "@material-ui/core";
 
 export default function FiltersDialog() {
-  const [year, setYear] = useState([1920, 2020]);
+  const [year, setYear] = useState([1970, 2020]);
+  const [type, setType] = useState("All");
 
   var handleChange = (event, newValue) => {
     console.log(newValue);
 
     setYear(newValue);
+  };
+
+  var handleChangeType = event => {
+    console.log(event.target.value);
+
+    setType(event.target.value);
   };
 
   return (
@@ -48,15 +57,32 @@ export default function FiltersDialog() {
               value={year}
               onChange={(e, v) => handleChange(e, v)}
               aria-labelledby="range-slider"
-              min={1900}
+              min={1970}
               max={2020}
             />
+
+            <InputLabel id="type-label">Tipo</InputLabel>
+            <Select
+              autoWidth={true}
+              labelId="type-menu"
+              id="type-select"
+              value={type}
+              onChange={handleChangeType}
+            >
+              <MenuItem value={"All"}>All</MenuItem>
+              <MenuItem value={"Book"}>Book</MenuItem>
+              <MenuItem value={"Article"}>Article</MenuItem>
+              <MenuItem value={"InProceedings"}>InProceedings</MenuItem>
+            </Select>
           </DialogContent>
           <DialogActions>
-            <Button color="primary" onClick={e => context.closeFilters(year)}>
+            <Button
+              color="primary"
+              onClick={() => context.closeFilters(year, type)}
+            >
               Conferma
             </Button>
-            <Button color="primary" onClick={context.closeFilters}>
+            <Button color="primary" onClick={e => context.closeWindow(e)}>
               Annulla
             </Button>
           </DialogActions>
