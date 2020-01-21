@@ -16,7 +16,8 @@ export default class GlobalProvider extends Component {
     all: [],
     current: 0,
     results: [],
-    favorites: []
+    favorites: [],
+    openDialog: false
   };
 
   componentDidMount() {
@@ -42,6 +43,20 @@ export default class GlobalProvider extends Component {
 
   resetResults = () => {
     this.setState({ results: this.state.all });
+  };
+
+  openAddDialog = e => {
+    this.setState({
+      openDialog: true
+    });
+  };
+
+  closeAddDialog = (e, opt = null) => {
+    console.log(opt);
+
+    this.setState({
+      openDialog: false
+    });
   };
 
   queryRequest = (e, search, functional = false) => {
@@ -241,12 +256,14 @@ export default class GlobalProvider extends Component {
           type: this.state.type,
           year: this.state.year,
           ready: this.state.ready,
+          openDialog: this.state.openDialog,
           current: this.state.current,
           orderBy: this.state.orderBy,
           filtersOpen: this.state.filtersOpen,
           removeType: e => this.removeType(e),
           closeWindow: e => this.closeWindow(e),
-
+          openAddDialog: e => this.openAddDialog(e),
+          closeAddDialog: (e, b) => this.closeAddDialog(e, b),
           initialRequest: e => this.initialRequest(e),
           removeYear: e => this.removeYear(e),
           closeFilters: (y, t) => this.closeFilters(y, t),

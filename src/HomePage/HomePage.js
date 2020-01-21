@@ -18,6 +18,7 @@ import Button from "@material-ui/core/Button";
 import { WbSunny, Search, Add, FilterList } from "@material-ui/icons";
 import QueryDocument from "../Document/QueryDocument";
 import FiltersDialog from "../Dialogs/FiltersDialog";
+import AddDialog from "../Dialogs/AddDialog";
 
 export default function HomePage() {
   let value = useContext(GlobalContext);
@@ -41,6 +42,7 @@ export default function HomePage() {
           style={{ background: context.dark ? "#201f1f" : "#fff" }}
         >
           <FiltersDialog></FiltersDialog>
+          <AddDialog></AddDialog>
           <header className="App-header">
             <Button
               onClick={context.changeTheme}
@@ -59,7 +61,7 @@ export default function HomePage() {
               )}
             </Button>
             <Button
-              onClick={context.changeTheme}
+              onClick={e => context.openAddDialog(e)}
               aria-label="add"
               style={{
                 position: "absolute",
