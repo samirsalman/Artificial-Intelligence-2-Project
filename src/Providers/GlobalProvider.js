@@ -52,7 +52,6 @@ export default class GlobalProvider extends Component {
       if (this.state.orderBy !== 0) {
         options = `?orderBy=${this.state.orderBy}`;
       }
-<<<<<<< HEAD
       if (this.state.year !== null) {
         if (this.state.orderBy === 0) {
           options = options + `?year=${this.state.year}`;
@@ -68,18 +67,9 @@ export default class GlobalProvider extends Component {
 
         console.log("REQUest");
         if (this.state.current === 0) {
-=======
-      console.log("REQUest");
-      if (this.state.current === 0) {
-        Axios.get(
-          `http://localhost:3000/query/searchByTitle/${search}/${orderOption}`
-        ).then(res => {
-          console.log(res);
->>>>>>> 6cfa90ff1ca5f3a7e413f855eabd0cc386114b62
           this.setState({
             lastSearch: `http://localhost:3000/query/searchByTitle/${search}${options}`
           });
-<<<<<<< HEAD
 
           Axios.get(
             `http://localhost:3000/query/searchByTitle/${search}${options}`
@@ -90,18 +80,9 @@ export default class GlobalProvider extends Component {
             });
           });
         } else if (this.state.current === 1) {
-=======
-        });
-      } else if (this.state.current === 1) {
-        Axios.get(
-          `http://localhost:3000/query/searchByAuthor/${search}/${orderOption}`
-        ).then(res => {
-          console.log(res);
->>>>>>> 6cfa90ff1ca5f3a7e413f855eabd0cc386114b62
           this.setState({
             lastSearch: `http://localhost:3000/query/searchByAuthor/${search}${options}`
           });
-<<<<<<< HEAD
 
           Axios.get(
             `http://localhost:3000/query/searchByAuthor/${search}${options}`
@@ -112,14 +93,6 @@ export default class GlobalProvider extends Component {
             });
           });
         } else {
-=======
-        });
-      } else {
-        Axios.get(
-          `http://localhost:3000/query/searchByIsbn/${search}/${orderOption}`
-        ).then(res => {
-          console.log(res);
->>>>>>> 6cfa90ff1ca5f3a7e413f855eabd0cc386114b62
           this.setState({
             lastSearch: `http://localhost:3000/query/searchByIsbn/${search}${options}`
           });
@@ -152,11 +125,6 @@ export default class GlobalProvider extends Component {
   };
 
   initialRequest = e => {
-<<<<<<< HEAD
-    this.setState({ lastSearch: `http://localhost:3000/query/all` });
-
-=======
->>>>>>> 6cfa90ff1ca5f3a7e413f855eabd0cc386114b62
     Axios.get(`http://localhost:3000/query/all`)
       .then(res => {
         this.setState({
