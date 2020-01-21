@@ -53,7 +53,6 @@ export default function SearchBar() {
               />
               <FormControlLabel
                 value="year"
-                disabled
                 control={<Radio color="primary" />}
                 label="Year"
               />
