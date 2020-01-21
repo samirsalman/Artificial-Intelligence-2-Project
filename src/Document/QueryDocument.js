@@ -111,7 +111,7 @@ export default class QueryDocument extends Component {
               <CardContent style={{ height: "300px" }}>
                 <Avatar
                   src={
-                    this.props.document.authors === "Stellato, Armando" ||
+                    this.props.document.authors === "Stellato Armando" ||
                     this.props.document.authors === "Armando Stellato"
                       ? require("../assets/stellato.jpg")
                       : null
@@ -129,6 +129,9 @@ export default class QueryDocument extends Component {
 
                 <p>{this.props.document.authors}</p>
                 <p>ISBN: {this.props.document.isbn}</p>
+                {this.props.document.year !== "" ? (
+                  <p>Anno: {this.props.document.year}</p>
+                ) : null}
               </CardContent>
               <CardActions>
                 <Grid container alignItems="center" justify="center">
