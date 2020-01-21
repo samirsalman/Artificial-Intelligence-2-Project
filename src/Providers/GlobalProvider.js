@@ -129,6 +129,7 @@ export default class GlobalProvider extends Component {
       .then(res => {
         this.setState({
           results: res.data,
+          lastSearch: `http://localhost:3000/query/all`,
           all: res.data
         });
         setTimeout(() => {
@@ -156,28 +157,27 @@ export default class GlobalProvider extends Component {
   };
 
   closeFilters = yearRange => {
-    var event = yearRange[0] + "-" + yearRange[1];
-    console.log(event);
+    if (yearRange[0] != undefined) {
+      var event = yearRange[0] + "-" + yearRange[1];
+      console.log(event);
 
-    if (typeof event == "number") {
       this.state.year = event;
       var temp = "";
       console.log(this.state.year);
 
       if (this.state.lastSearch.includes("year=")) {
-        var ls = this.state.lastSearch;
-        ls.replace("year=", `year=${event}`);
-        temp = ls.substring(0, ls.length - 3);
         if (this.state.lastSearch.includes("orderBy=")) {
           temp = `${this.state.lastSearch}&year=${event}`;
+        } else {
+          var ls = this.state.lastSearch;
+          ls.replace("year=", `year=${event}`);
+          temp = ls.substring(0, ls.length - 5);
         }
       } else {
         if (this.state.lastSearch.includes("orderBy=")) {
           temp = `${this.state.lastSearch}&year=${event}`;
         } else {
-          temp = `${this.state.lastSearch}?year=${event}`;
-
-          console.log("EVENT= ", `${temp}?year=${event}`);
+          temp = `${this.state.lastSearch}?&year=${event}`;
         }
       }
       this.queryRequest(null, temp, true);
@@ -193,6 +193,12 @@ export default class GlobalProvider extends Component {
     this.setState({
       year: null
     });
+    if (this.state.lastSearch.includes("?year=")) {
+      this.state.lastSearch = this.state.lastSearch.substring(
+        0,
+        this.state.lastSearch.length - 14
+      );
+    }
     console.log(this.state.lastSearch);
 
     this.queryRequest(null, this.state.lastSearch, true);
