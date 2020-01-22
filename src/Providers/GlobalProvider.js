@@ -125,7 +125,7 @@ export default class GlobalProvider extends Component {
         success: false,
         error: false
       });
-    }, 5000);
+    }, 1500);
   };
 
   queryRequest = (e, search, functional = false) => {
@@ -339,7 +339,7 @@ export default class GlobalProvider extends Component {
           orderBy: this.state.orderBy,
           filtersOpen: this.state.filtersOpen,
           removeType: e => this.removeType(e),
-          buildQuery: ()=>this.buildQuery(),
+          buildQuery: () => this.buildQuery(),
           closeWindow: e => this.closeWindow(e),
           openAddDialog: e => this.openAddDialog(e),
           closeAddDialog: (e, b) => this.closeAddDialog(e, b),
