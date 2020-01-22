@@ -9,7 +9,10 @@ export default class GlobalProvider extends Component {
     dark: false,
     open: false,
     orderBy: 0,
+    success: false,
+    error: false,
     year: null,
+    loadRequest: false,
     type: null,
     lastSearch: "",
     filtersOpen: false,
@@ -52,11 +55,77 @@ export default class GlobalProvider extends Component {
   };
 
   closeAddDialog = (e, opt = null) => {
+    this.setState({
+      loadRequest: true
+    });
+
     console.log(opt);
 
+    if (opt != null) {
+      if (opt.title !== "" && opt.authors.length > 0 && opt.year !== "") {
+        var req = null;
+        if (opt.type === "Book") {
+          req = Axios.post(`http://localhost:3000/insert/book`, {
+            title: opt.title,
+            year: opt.year,
+            authors: opt.authors,
+            isbn: opt.isbn,
+            publisher: opt.publisher
+          });
+        } else if (opt.type === "Article") {
+          req = Axios.post(`http://localhost:3000/insert/article`, {
+            title: opt.title,
+            year: opt.year,
+            authors: opt.authors,
+            issn: opt.issn,
+            journal: opt.journal
+          });
+        } else {
+          req = Axios.post(`http://localhost:3000/insert/inProceedings`, {
+            title: opt.title,
+            year: opt.year,
+            authors: opt.authors,
+            book: opt.book,
+            publisher: opt.publisher,
+            editor: opt.editor,
+            isbn: opt.isbn
+          });
+        }
+
+        req.then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            this.setState({
+              loadRequest: false,
+              success: true,
+              error: false,
+              openDialog: false
+            });
+          } else {
+            this.setState({
+              loadRequest: false,
+              success: false,
+              error: true,
+              openDialog: false
+            });
+          }
+        });
+      } else {
+        this.setState({
+          error: true
+        });
+      }
+    }
     this.setState({
       openDialog: false
     });
+
+    setTimeout(() => {
+      this.setState({
+        success: false,
+        error: false
+      });
+    }, 5000);
   };
 
   queryRequest = (e, search, functional = false) => {
@@ -174,19 +243,25 @@ export default class GlobalProvider extends Component {
 
   closeFilters = (yearRange, type) => {
     var event = yearRange[0] + "-" + yearRange[1];
-    console.log(type);
-    console.log("YEAR RANGE", yearRange);
 
     if (type === "All") {
       this.state.type = null;
     } else {
-      this.state.type = type;
+      if (typeof type === "string" && type !== "backdropClick") {
+        this.state.type = type;
+      } else {
+        this.state.type = null;
+      }
     }
 
     if (yearRange[0] === 1970 && yearRange[1] === 2020) {
       this.state.year = null;
     } else {
-      this.state.year = event;
+      if (yearRange[0] !== undefined) {
+        this.state.year = event;
+      } else {
+        this.state.year = null;
+      }
     }
     var temp = this.state.lastSearch;
 
@@ -253,6 +328,9 @@ export default class GlobalProvider extends Component {
           all: this.state.all,
           results: this.state.results,
           dark: this.state.dark,
+          error: this.state.error,
+          success: this.state.success,
+          loadRequest: this.state.loadRequest,
           type: this.state.type,
           year: this.state.year,
           ready: this.state.ready,
@@ -261,6 +339,7 @@ export default class GlobalProvider extends Component {
           orderBy: this.state.orderBy,
           filtersOpen: this.state.filtersOpen,
           removeType: e => this.removeType(e),
+          buildQuery: ()=>this.buildQuery(),
           closeWindow: e => this.closeWindow(e),
           openAddDialog: e => this.openAddDialog(e),
           closeAddDialog: (e, b) => this.closeAddDialog(e, b),

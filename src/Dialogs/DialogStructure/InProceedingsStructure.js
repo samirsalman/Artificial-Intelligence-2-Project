@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField } from "@material-ui/core";
 
-export default class BookStructure extends React.Component {
+export default class InProceedingsStructure extends React.Component {
   constructor(props) {
     super(props);
     this.ref = React.createRef();
@@ -39,13 +39,14 @@ export default class BookStructure extends React.Component {
     }
 
     return {
-      type: "Book",
-
+      type: "InProceedings",
       title: document.getElementById("titleField").value,
       year: document.getElementById("yearField").value,
       authors: authors,
-      isbn: document.getElementById("ISBNField").value,
-      publisher: document.getElementById("publisherField").value
+      book: document.getElementById("bookField").value,
+      publisher: document.getElementById("publisherField").value,
+      editor: document.getElementById("editorField").value,
+      isbn: document.getElementById("isbnField").value
     };
   };
 
@@ -67,7 +68,10 @@ export default class BookStructure extends React.Component {
           fullWidth
           helperText="Aggiungi gli autori separati da virgole"
         />
-        <TextField margin="dense" id="ISBNField" label="ISBN" fullWidth />
+        <TextField margin="dense" id="bookField" label="Book Title" fullWidth />
+        <TextField margin="dense" id="editorField" label="Editor" fullWidth />
+        <TextField margin="dense" id="isbnField" label="ISBN" fullWidth />
+
         <TextField
           margin="dense"
           id="publisherField"

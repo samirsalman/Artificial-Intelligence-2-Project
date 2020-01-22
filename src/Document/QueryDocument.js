@@ -7,7 +7,7 @@ import {
   Add
 } from "@material-ui/icons";
 import GlobalContext from "../Providers/Context.js";
-
+import DeleteDialog from "../Dialogs/DeleteDialog";
 import {
   Avatar,
   Dialog,
@@ -27,8 +27,11 @@ export default class QueryDocument extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      deleteDialog: false
     };
+    console.log(this.props.document.uri.value);
+
     this.handleClose.bind(this);
     this.openDialog.bind(this);
   }
@@ -47,118 +50,247 @@ export default class QueryDocument extends Component {
     });
   };
 
-  render() {
-    return (
-      <GlobalContext.Consumer>
-        {context => (
-          <Grid
-            item
-            container
-            xs={12}
-            sm={6}
-            md={6}
-            lg={4}
-            justify="center"
-            alignItems="center"
-          >
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">
-                Modifica Documento
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Modifica le tue voci e salva tutto nell'ontologia
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="titleField"
-                  label="Titolo"
-                  defaultValue={this.props.document.title}
-                  fullWidth
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="authorsField"
-                  label="Autori"
-                  defaultValue={this.props.document.authors}
-                  fullWidth
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="ISBNField"
-                  label="ISBN"
-                  defaultValue={this.props.document.isbn}
-                  fullWidth
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                  Conferma
-                </Button>
-                <Button onClick={this.handleClose} color="primary">
-                  Annulla
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <Card style={{ margin: "24px", width: "340px" }}>
-              <CardContent style={{ height: "300px" }}>
-                <Avatar
-                  src={
-                    this.props.document.authors === "Stellato Armando" ||
-                    this.props.document.authors === "Armando Stellato"
-                      ? require("../assets/stellato.jpg")
-                      : null
-                  }
-                  style={{
-                    textAlign: "center",
-                    margin: "0 auto",
-                    width: "60px",
-                    height: "60px"
-                  }}
-                >
-                  DOC
-                </Avatar>
-                <h3>{this.props.document.title}</h3>
+  openDelete = e => {
+    this.setState({
+      deleteDialog: true
+    });
+  };
 
-                <p>{this.props.document.authors}</p>
-                <p>ISBN: {this.props.document.isbn}</p>
-                {this.props.document.year !== "" ? (
-                  <p>Anno: {this.props.document.year}</p>
-                ) : null}
-              </CardContent>
-              <CardActions>
-                <Grid container alignItems="center" justify="center">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={{ margin: "12px" }}
-                    onClick={this.openDialog}
-                  >
-                    Edit
+  render() {
+    if (this.state.deleteDialog) {
+      return (
+        <GlobalContext.Consumer>
+          {context => (
+            <Grid
+              item
+              container
+              xs={12}
+              sm={6}
+              md={6}
+              lg={4}
+              justify="center"
+              alignItems="center"
+            >
+              <DeleteDialog
+                open={this.state.deleteDialog}
+                title={this.props.document.title}
+                uri={this.props.document.uri.value}
+              ></DeleteDialog>
+
+              <Dialog
+                open={this.state.open}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title">
+                  Modifica Documento
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Modifica le tue voci e salva tutto nell'ontologia
+                  </DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="titleField"
+                    label="Titolo"
+                    defaultValue={this.props.document.title}
+                    fullWidth
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="authorsField"
+                    label="Autori"
+                    defaultValue={this.props.document.authors}
+                    fullWidth
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="ISBNField"
+                    label="ISBN"
+                    defaultValue={this.props.document.isbn}
+                    fullWidth
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="primary">
+                    Conferma
                   </Button>
-                  <Button
-                    variant="contained"
+                  <Button onClick={this.handleClose} color="primary">
+                    Annulla
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Card style={{ margin: "24px", width: "340px" }}>
+                <CardContent style={{ height: "300px" }}>
+                  <Avatar
+                    src={
+                      this.props.document.authors === "Stellato Armando" ||
+                      this.props.document.authors === "Armando Stellato"
+                        ? require("../assets/stellato.jpg")
+                        : null
+                    }
                     style={{
-                      margin: "12px",
-                      background: "red",
-                      color: "white"
+                      textAlign: "center",
+                      margin: "0 auto",
+                      width: "60px",
+                      height: "60px"
                     }}
                   >
-                    Delete
+                    DOC
+                  </Avatar>
+                  <h3>{this.props.document.title}</h3>
+
+                  <p>{this.props.document.authors}</p>
+                  <p>ISBN: {this.props.document.isbn}</p>
+                  {this.props.document.year !== "" ? (
+                    <p>Anno: {this.props.document.year}</p>
+                  ) : null}
+                </CardContent>
+                <CardActions>
+                  <Grid container alignItems="center" justify="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ margin: "12px" }}
+                      onClick={this.openDialog}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      style={{
+                        margin: "12px",
+                        background: "red",
+                        color: "white"
+                      }}
+                      onClick={e => this.openDelete(e)}
+                    >
+                      Delete
+                    </Button>
+                  </Grid>
+                </CardActions>
+              </Card>
+            </Grid>
+          )}
+        </GlobalContext.Consumer>
+      );
+    } else {
+      return (
+        <GlobalContext.Consumer>
+          {context => (
+            <Grid
+              item
+              container
+              xs={12}
+              sm={6}
+              md={6}
+              lg={4}
+              justify="center"
+              alignItems="center"
+            >
+              <Dialog
+                open={this.state.open}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title">
+                  Modifica Documento
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Modifica le tue voci e salva tutto nell'ontologia
+                  </DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="titleField"
+                    label="Titolo"
+                    defaultValue={this.props.document.title}
+                    fullWidth
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="authorsField"
+                    label="Autori"
+                    defaultValue={this.props.document.authors}
+                    fullWidth
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="ISBNField"
+                    label="ISBN"
+                    defaultValue={this.props.document.isbn}
+                    fullWidth
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="primary">
+                    Conferma
                   </Button>
-                </Grid>
-              </CardActions>
-            </Card>
-          </Grid>
-        )}
-      </GlobalContext.Consumer>
-    );
+                  <Button onClick={this.handleClose} color="primary">
+                    Annulla
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Card style={{ margin: "24px", width: "340px" }}>
+                <CardContent style={{ height: "300px" }}>
+                  <Avatar
+                    src={
+                      this.props.document.authors === "Stellato Armando" ||
+                      this.props.document.authors === "Armando Stellato"
+                        ? require("../assets/stellato.jpg")
+                        : null
+                    }
+                    style={{
+                      textAlign: "center",
+                      margin: "0 auto",
+                      width: "60px",
+                      height: "60px"
+                    }}
+                  >
+                    DOC
+                  </Avatar>
+                  <h3>{this.props.document.title}</h3>
+
+                  <p>{this.props.document.authors}</p>
+                  <p>ISBN: {this.props.document.isbn}</p>
+                  {this.props.document.year !== "" ? (
+                    <p>Anno: {this.props.document.year}</p>
+                  ) : null}
+                </CardContent>
+                <CardActions>
+                  <Grid container alignItems="center" justify="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ margin: "12px" }}
+                      onClick={this.openDialog}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      style={{
+                        margin: "12px",
+                        background: "red",
+                        color: "white"
+                      }}
+                      onClick={e => this.openDelete(e)}
+                    >
+                      Delete
+                    </Button>
+                  </Grid>
+                </CardActions>
+              </Card>
+            </Grid>
+          )}
+        </GlobalContext.Consumer>
+      );
+    }
   }
 }
