@@ -108,7 +108,7 @@ export default function HomePage() {
             >
               <Tab label="title" value={0} />
               <Tab label="author" value={1} />
-              <Tab label="isbn" value={2} />
+              <Tab label="isbn/issn" value={2} />
             </Tabs>
           </header>
           <SearchBar></SearchBar>

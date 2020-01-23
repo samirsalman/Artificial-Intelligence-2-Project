@@ -144,7 +144,11 @@ export default class QueryDocument extends Component {
                   <h3>{this.props.document.title}</h3>
 
                   <p>{this.props.document.authors}</p>
-                  <p>ISBN: {this.props.document.isbn}</p>
+                  {this.props.document.isbn !== "" ? (
+                    <p>ISBN: {this.props.document.isbn}</p>
+                  ) : this.props.document.issn !== "" ? (
+                    <p>ISSN: {this.props.document.issn}</p>
+                  ) : null}
                   {this.props.document.year !== "" ? (
                     <p>Anno: {this.props.document.year}</p>
                   ) : null}
@@ -258,7 +262,12 @@ export default class QueryDocument extends Component {
                   <h3>{this.props.document.title}</h3>
 
                   <p>{this.props.document.authors}</p>
-                  <p>ISBN: {this.props.document.isbn}</p>
+                  {this.props.document.isbn !== "" ? (
+                    <p>ISBN: {this.props.document.isbn}</p>
+                  ) : this.props.document.issn !== "" ? (
+                    <p>ISSN: {this.props.document.issn}</p>
+                  ) : null}
+
                   {this.props.document.year !== "" ? (
                     <p>Anno: {this.props.document.year}</p>
                   ) : null}
