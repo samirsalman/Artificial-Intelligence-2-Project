@@ -40,7 +40,6 @@ export default class BookStructure extends React.Component {
 
     return {
       type: "Book",
-
       title: document.getElementById("titleField").value,
       year: document.getElementById("yearField").value,
       authors: authors,

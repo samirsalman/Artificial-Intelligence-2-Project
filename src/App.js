@@ -5,6 +5,7 @@ import HomePage from "./HomePage/HomePage";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import LoadingScreen from "./LoadingScreen/LoadingScreen.js";
+import DetailsPage from "./DetailsPage/DetailsPage";
 
 export default function App() {
   let value = useContext(GlobalContext);
@@ -26,11 +27,13 @@ export default function App() {
           context.dark
             ? (document.body.style = "background: #201f1f;")
             : (document.body.style = "background: white;");
-          return context.ready ? (
+          return context.ready && context.selectedDetails === null ? (
             <div>
               <HomePage></HomePage>
               <footer className="vs"></footer>
             </div>
+          ) : context.ready && context.selectedDetails !== null ? (
+            <DetailsPage document={context.selectedDetails}></DetailsPage>
           ) : (
             <LoadingScreen></LoadingScreen>
           );

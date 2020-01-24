@@ -51,8 +51,8 @@ export default class DeleteDialog extends React.Component {
               open: false
             });
           }
-          var temp = value.buildQuery().split("/");
-          value.queryRequest(null, temp[temp.length - 1], true);
+          var temp = value.buildQuery();
+          value.queryRequest(null, temp, true);
         });
       } else {
         this.setState({

@@ -6,6 +6,7 @@ import Axios from "axios";
 export default class GlobalProvider extends Component {
   state = {
     ready: false,
+    selectedDetails: null,
     dark: false,
     open: false,
     orderBy: 0,
@@ -128,6 +129,43 @@ export default class GlobalProvider extends Component {
     }, 1500);
   };
 
+  updateQuery(obj, uriVal) {
+    var req = null;
+    console.log(obj);
+
+    var uriSplit = uriVal.split("/");
+    let uri = uriSplit[uriSplit.length - 1];
+
+    if (obj.type === "Book") {
+      req = Axios.put(`http://localhost:3000/update/book`, {
+        uri: uri,
+        isbn: obj.isbn,
+        publisher: obj.publisher
+      });
+    } else if (obj.type === "Article") {
+      req = Axios.put(`http://localhost:3000/update/article`, {
+        uri: uri,
+        journal: obj.journal,
+        issn: obj.issn
+      });
+    } else {
+      req = Axios.put(`http://localhost:3000/update/inProceedings`, {
+        uri: uri,
+        bookTitle: obj.booktitle,
+        isbn: obj.isbn,
+        publisher: obj.publisher,
+        editor: obj.editor
+      });
+    }
+
+    req.then(res => {
+      console.log("UPDATED");
+      console.log(res);
+      var temp = this.buildQuery();
+      this.queryRequest(null, temp, true);
+    });
+  }
+
   queryRequest = (e, search, functional = false) => {
     if (e !== null) {
       e.preventDefault();
@@ -198,8 +236,10 @@ export default class GlobalProvider extends Component {
         });
       }
     } else {
-      console.log(search);
-
+      console.log("QUERY", search);
+      this.setState({
+        results: []
+      });
       Axios.get(search).then(res => {
         console.log(res);
         this.setState({
@@ -217,11 +257,9 @@ export default class GlobalProvider extends Component {
           lastSearch: `http://localhost:3000/query/all`,
           all: res.data
         });
-        setTimeout(() => {
-          this.setState({
-            ready: true
-          });
-        }, 1000);
+        this.setState({
+          ready: true
+        });
       })
       .catch(error => {
         console.log(error);
@@ -321,11 +359,24 @@ export default class GlobalProvider extends Component {
     return temp;
   };
 
+  setSelected = el => {
+    this.setState({
+      selectedDetails: el
+    });
+  };
+
+  removeSelected = el => {
+    this.setState({
+      selectedDetails: null
+    });
+  };
+
   render() {
     return (
       <GlobalContext.Provider
         value={{
           all: this.state.all,
+          selectedDetails: this.state.selectedDetails,
           results: this.state.results,
           dark: this.state.dark,
           error: this.state.error,
@@ -338,7 +389,10 @@ export default class GlobalProvider extends Component {
           current: this.state.current,
           orderBy: this.state.orderBy,
           filtersOpen: this.state.filtersOpen,
+          setSelected: el => this.setSelected(el),
+          removeSelected: () => this.removeSelected(),
           removeType: e => this.removeType(e),
+          updateQuery: (obj, uri) => this.updateQuery(obj, uri),
           buildQuery: () => this.buildQuery(),
           closeWindow: e => this.closeWindow(e),
           openAddDialog: e => this.openAddDialog(e),
@@ -348,7 +402,8 @@ export default class GlobalProvider extends Component {
           closeFilters: (y, t) => this.closeFilters(y, t),
           openFilters: e => this.openFilters(e),
           handleChange: e => this.handleChange(e),
-          queryRequest: (e, query) => this.queryRequest(e, query),
+          queryRequest: (e, query, functional) =>
+            this.queryRequest(e, query, functional),
           handleTabChange: (e, id) => this.handleTabChange(e, id),
           changeTheme: e => this.changeTheme(e),
           resetResults: () => this.resetResults()
