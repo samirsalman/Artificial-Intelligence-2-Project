@@ -194,8 +194,8 @@ export default class GlobalProvider extends Component {
             lastSearch: `http://localhost:3000/query/searchByTitle/${search}`
           });
 
-          Axios.get(`http://localhost:3000/query/searchByTitle/${search}`).then(
-            res => {
+          Axios.get(`http://localhost:3000/query/searchByTitle/${search}${options}`
+          ).then(res => {
               console.log(res);
               this.setState({
                 results: res.data
