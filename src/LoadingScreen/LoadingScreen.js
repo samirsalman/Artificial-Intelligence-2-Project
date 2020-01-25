@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import Snackbar from "@material-ui/core/Snackbar";
-import HomePage from "../HomePage/HomePage";
 import Alert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import GlobalContext from "../Providers/Context";
 
 export default class LoadingScreen extends Component {

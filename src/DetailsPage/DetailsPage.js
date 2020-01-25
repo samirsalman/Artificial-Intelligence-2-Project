@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
@@ -11,8 +10,6 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import { Details } from "@material-ui/icons";
 
-import Paper from "@material-ui/core/Paper";
-
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -21,9 +18,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 
 export default class DetailsPage extends Component {
-  constructor(props) {
-    super(props);
-  }
   Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });

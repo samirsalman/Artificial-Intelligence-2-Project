@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import GlobalContext from "../Providers/Context.js";
-import {
-  withStyles,
-  makeStyles,
-  ThemeProvider,
-  useTheme
-} from "@material-ui/core/styles";
 
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
@@ -20,8 +14,6 @@ import {
   Grid,
   CircularProgress,
   MenuItem,
-  Slider,
-  TextField,
   DialogContent,
   DialogActions
 } from "@material-ui/core";

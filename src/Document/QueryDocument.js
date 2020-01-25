@@ -1,26 +1,15 @@
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import {
-  FavoriteBorderOutlined,
-  FavoriteRounded,
-  Add
-} from "@material-ui/icons";
+import { Link } from "react-router-dom";
+
+import "../App.css";
 import GlobalContext from "../Providers/Context.js";
 import DeleteDialog from "../Dialogs/DeleteDialog";
-import {
-  Avatar,
-  Dialog,
-  DialogTitle,
-  DialogContentText,
-  TextField,
-  DialogContent,
-  DialogActions
-} from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import UpdateBook from "../Dialogs/EditDialogs/UpdateBook.js";
 import UpdateInProceedingsStruct from "../Dialogs/EditDialogs/UpdateInProceedingsStruct.js";
 import UpdateArticleStruct from "../Dialogs/EditDialogs/UpdateArticleStruct.js";
 import UpdateBookStruct from "../Dialogs/EditDialogs/UpdateBookStruct";
@@ -130,40 +119,42 @@ export default class QueryDocument extends Component {
                 title={this.props.document.title}
                 uri={this.props.document.uri.value}
               ></DeleteDialog>
+              <Card style={{ margin: "24px", width: "340px" }}>
+                <Link
+                  onClick={e => this.openDetails()}
+                  style={{ color: context.dark ? "#fff" : "#2589bd" }}
+                >
+                  <CardContent style={{ height: "300px" }}>
+                    <Avatar
+                      src={
+                        this.props.document.authors === "Stellato Armando" ||
+                        this.props.document.authors === "Armando Stellato"
+                          ? require("../assets/stellato.jpg")
+                          : null
+                      }
+                      style={{
+                        textAlign: "center",
+                        margin: "0 auto",
+                        width: "60px",
+                        height: "60px"
+                      }}
+                    >
+                      DOC
+                    </Avatar>
+                    <h3>{this.props.document.title}</h3>
 
-              <Card
-                style={{ margin: "24px", width: "340px" }}
-                onClick={e => this.openDetails()}
-              >
-                <CardContent style={{ height: "300px" }}>
-                  <Avatar
-                    src={
-                      this.props.document.authors === "Stellato Armando" ||
-                      this.props.document.authors === "Armando Stellato"
-                        ? require("../assets/stellato.jpg")
-                        : null
-                    }
-                    style={{
-                      textAlign: "center",
-                      margin: "0 auto",
-                      width: "60px",
-                      height: "60px"
-                    }}
-                  >
-                    DOC
-                  </Avatar>
-                  <h3>{this.props.document.title}</h3>
+                    <p>{this.props.document.authors}</p>
+                    {this.props.document.isbn !== "" ? (
+                      <p>ISBN: {this.props.document.isbn}</p>
+                    ) : this.props.document.issn !== "" ? (
+                      <p>ISSN: {this.props.document.issn}</p>
+                    ) : null}
+                    {this.props.document.year !== "" ? (
+                      <p>Anno: {this.props.document.year}</p>
+                    ) : null}
+                  </CardContent>
+                </Link>
 
-                  <p>{this.props.document.authors}</p>
-                  {this.props.document.isbn !== "" ? (
-                    <p>ISBN: {this.props.document.isbn}</p>
-                  ) : this.props.document.issn !== "" ? (
-                    <p>ISSN: {this.props.document.issn}</p>
-                  ) : null}
-                  {this.props.document.year !== "" ? (
-                    <p>Anno: {this.props.document.year}</p>
-                  ) : null}
-                </CardContent>
                 <CardActions>
                   <Grid container alignItems="center" justify="center">
                     <Button
@@ -233,40 +224,43 @@ export default class QueryDocument extends Component {
                   document={this.props.document}
                 ></UpdateInProceedingsStruct>
               )}
-              <Card
-                style={{ margin: "24px", width: "340px" }}
-                onClick={e => this.openDetails()}
-              >
-                <CardContent style={{ height: "300px" }}>
-                  <Avatar
-                    src={
-                      this.props.document.authors === "Stellato Armando" ||
-                      this.props.document.authors === "Armando Stellato"
-                        ? require("../assets/stellato.jpg")
-                        : null
-                    }
-                    style={{
-                      textAlign: "center",
-                      margin: "0 auto",
-                      width: "60px",
-                      height: "60px"
-                    }}
-                  >
-                    DOC
-                  </Avatar>
-                  <h3>{this.props.document.title}</h3>
+              <Card style={{ margin: "24px", width: "340px" }}>
+                <Link
+                  onClick={e => this.openDetails()}
+                  style={{ color: context.dark ? "#fff" : "#2589bd" }}
+                >
+                  <CardContent style={{ height: "300px" }}>
+                    <Avatar
+                      src={
+                        this.props.document.authors === "Stellato Armando" ||
+                        this.props.document.authors === "Armando Stellato"
+                          ? require("../assets/stellato.jpg")
+                          : null
+                      }
+                      style={{
+                        textAlign: "center",
+                        margin: "0 auto",
+                        width: "60px",
+                        height: "60px"
+                      }}
+                    >
+                      DOC
+                    </Avatar>
+                    <h3>{this.props.document.title}</h3>
 
-                  <p>{this.props.document.authors}</p>
-                  {this.props.document.isbn !== "" ? (
-                    <p>ISBN: {this.props.document.isbn}</p>
-                  ) : this.props.document.issn !== "" ? (
-                    <p>ISSN: {this.props.document.issn}</p>
-                  ) : null}
+                    <p>{this.props.document.authors}</p>
+                    {this.props.document.isbn !== "" ? (
+                      <p>ISBN: {this.props.document.isbn}</p>
+                    ) : this.props.document.issn !== "" ? (
+                      <p>ISSN: {this.props.document.issn}</p>
+                    ) : null}
 
-                  {this.props.document.year !== "" ? (
-                    <p>Anno: {this.props.document.year}</p>
-                  ) : null}
-                </CardContent>
+                    {this.props.document.year !== "" ? (
+                      <p>Anno: {this.props.document.year}</p>
+                    ) : null}
+                  </CardContent>
+                </Link>
+
                 <CardActions>
                   <Grid container alignItems="center" justify="center">
                     <Button

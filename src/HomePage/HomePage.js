@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { ReactComponent as Moon } from "../assets/moon.svg";
 import "../App.css";
 import GlobalContext from "../Providers/Context";
@@ -21,18 +21,7 @@ import FiltersDialog from "../Dialogs/FiltersDialog";
 import AddDialog from "../Dialogs/AddDialog";
 
 export default function HomePage() {
-  let value = useContext(GlobalContext);
-
-  const [search, setSearch] = useState("");
-
   var i = 0;
-
-  var onSearchChange = text => {
-    if (text.target.value.length === 0) {
-      value.resetResults();
-    }
-    setSearch(text.target.value);
-  };
 
   return (
     <GlobalContext.Consumer>
@@ -114,6 +103,7 @@ export default function HomePage() {
           <SearchBar></SearchBar>
           {context.year !== null ? (
             <Chip
+              style={{ margin: "14px" }}
               avatar={<Avatar alt="year">Y</Avatar>}
               label={"Anno:" + context.year}
               onDelete={context.removeYear}
@@ -122,6 +112,7 @@ export default function HomePage() {
 
           {context.type !== null ? (
             <Chip
+              style={{ margin: "14px" }}
               avatar={<Avatar alt="type">Y</Avatar>}
               label={"Tipo: " + context.type}
               onDelete={context.removeType}

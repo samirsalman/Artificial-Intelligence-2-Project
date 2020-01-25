@@ -1,8 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import GlobalContext from "./Providers/Context.js";
-
 import HomePage from "./HomePage/HomePage";
-
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import LoadingScreen from "./LoadingScreen/LoadingScreen.js";
 import DetailsPage from "./DetailsPage/DetailsPage";
@@ -14,8 +12,10 @@ export default function App() {
     palette: {
       type: value.dark ? "dark" : "light",
       primary: { main: "#2589BD" },
-      secondary: { main: "#38686A" }
+      secondary: { main: "#38686A" },
+      borderRadius: 3
     },
+
     status: {
       danger: "orange"
     }

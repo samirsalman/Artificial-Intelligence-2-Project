@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import GlobalContext from "../Providers/Context.js";
 import {
   FormControl,
-  FormLabel,
   Grid,
   FormControlLabel,
   RadioGroup,

@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import GlobalContext from "../Providers/Context.js";
 import {
-  withStyles,
-  makeStyles,
-  ThemeProvider,
-  useTheme
-} from "@material-ui/core/styles";
-import {
   Dialog,
   Button,
   DialogTitle,
@@ -40,7 +34,7 @@ export default function FiltersDialog() {
       {context => (
         <Dialog
           open={context.filtersOpen}
-          onClose={context.closeFilters}
+          onClose={e => context.closeFilters(null, null, false)}
           aria-labelledby="filters"
           id="filters"
         >

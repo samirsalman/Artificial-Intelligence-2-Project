@@ -35,7 +35,9 @@ export default class GlobalProvider extends Component {
 
   changeTheme = e => {
     this.setState({ dark: !this.state.dark });
+    localStorage.removeItem("theme");
     localStorage.setItem("theme", this.state.dark);
+    console.log(localStorage.getItem("theme"));
   };
 
   handleTabChange = (e, id) => {
@@ -194,14 +196,14 @@ export default class GlobalProvider extends Component {
             lastSearch: `http://localhost:3000/query/searchByTitle/${search}`
           });
 
-          Axios.get(`http://localhost:3000/query/searchByTitle/${search}${options}`
+          Axios.get(
+            `http://localhost:3000/query/searchByTitle/${search}${options}`
           ).then(res => {
-              console.log(res);
-              this.setState({
-                results: res.data
-              });
-            }
-          );
+            console.log(res);
+            this.setState({
+              results: res.data
+            });
+          });
         } else if (this.state.current === 1) {
           this.setState({
             lastSearch: `http://localhost:3000/query/searchByAuthor/${search}`
@@ -279,45 +281,46 @@ export default class GlobalProvider extends Component {
     console.log(this.state.filtersOpen);
   };
 
-  closeFilters = (yearRange, type) => {
-    var event = yearRange[0] + "-" + yearRange[1];
+  closeFilters = (yearRange, type, handle = true) => {
+    if (handle) {
+      var event = yearRange[0] + "-" + yearRange[1];
 
-    if (type === "All") {
-      this.state.type = null;
-    } else {
-      if (typeof type === "string" && type !== "backdropClick") {
-        this.state.type = type;
-      } else {
+      if (type === "All") {
         this.state.type = null;
-      }
-    }
-
-    if (yearRange[0] === 1970 && yearRange[1] === 2020) {
-      this.state.year = null;
-    } else {
-      if (yearRange[0] !== undefined) {
-        this.state.year = event;
       } else {
+        if (typeof type === "string" && type !== "none") {
+          this.state.type = type;
+        } else {
+          this.state.type = null;
+        }
+      }
+
+      if (yearRange[0] === 1970 && yearRange[1] === 2020) {
         this.state.year = null;
+      } else {
+        if (yearRange[0] !== undefined) {
+          this.state.year = event;
+        } else {
+          this.state.year = null;
+        }
       }
-    }
-    var temp = this.state.lastSearch;
+      var temp = this.state.lastSearch;
 
-    temp += "?";
-    if (this.state.year !== null) {
-      if (this.state.year[0] !== undefined) {
-        temp += `year=${event}&`;
+      temp += "?";
+      if (this.state.year !== null) {
+        if (this.state.year[0] !== undefined) {
+          temp += `year=${event}&`;
+        }
       }
+      if (this.state.orderBy !== 0) {
+        temp += `orderBy=${this.state.orderBy}&`;
+      }
+      if (this.state.type !== null) {
+        temp += `type=${this.state.type}`;
+      }
+      console.log(temp);
+      this.queryRequest(null, temp, true);
     }
-    if (this.state.orderBy !== 0) {
-      temp += `orderBy=${this.state.orderBy}&`;
-    }
-    if (this.state.type !== null) {
-      temp += `type=${this.state.type}`;
-    }
-
-    console.log(temp);
-    this.queryRequest(null, temp, true);
 
     this.setState({
       filtersOpen: false
@@ -399,7 +402,7 @@ export default class GlobalProvider extends Component {
           closeAddDialog: (e, b) => this.closeAddDialog(e, b),
           initialRequest: e => this.initialRequest(e),
           removeYear: e => this.removeYear(e),
-          closeFilters: (y, t) => this.closeFilters(y, t),
+          closeFilters: (y, t, h) => this.closeFilters(y, t, h),
           openFilters: e => this.openFilters(e),
           handleChange: e => this.handleChange(e),
           queryRequest: (e, query, functional) =>

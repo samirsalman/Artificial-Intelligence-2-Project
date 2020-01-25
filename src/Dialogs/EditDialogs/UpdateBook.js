@@ -1,16 +1,8 @@
-import React, { useState } from "react";
-import { TextField } from "@material-ui/core";
+import React from "react";
 import {
   Dialog,
   Button,
   DialogTitle,
-  DialogContentText,
-  InputLabel,
-  Select,
-  Grid,
-  CircularProgress,
-  MenuItem,
-  Slider,
   DialogContent,
   DialogActions
 } from "@material-ui/core";
@@ -18,10 +10,6 @@ import UpdateBookStruct from "../EditDialogs/UpdateBookStruct";
 import GlobalContext from "../../Providers/GlobalProvider";
 import UpdateArticleStruct from "../EditDialogs/UpdateArticleStruct";
 import UpdateInProceedingsStruct from "../EditDialogs/UpdateInProceedingsStruct";
-
-import { render } from "@testing-library/react";
-import ArticleStructure from "../DialogStructure/ArticleStructure.js";
-import InProceedingsStructure from "../DialogStructure/InProceedingsStructure";
 
 export default class UpdateBook extends React.Component {
   updateReq = obj => {
