@@ -19,6 +19,7 @@ import { WbSunny, Search, Add, FilterList } from "@material-ui/icons";
 import QueryDocument from "../Document/QueryDocument";
 import FiltersDialog from "../Dialogs/FiltersDialog";
 import AddDialog from "../Dialogs/AddDialog";
+import Footer from "../Footer/Footer";
 
 export default function HomePage() {
   var i = 0;
@@ -123,6 +124,9 @@ export default function HomePage() {
               <QueryDocument key={i++} document={e}></QueryDocument>
             ))}
           </Grid>
+          <footer>
+            <Footer></Footer>
+          </footer>
         </div>
       )}
     </GlobalContext.Consumer>
