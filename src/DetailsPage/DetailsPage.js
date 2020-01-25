@@ -4,7 +4,7 @@ import Axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-
+import FileDownload from "js-file-download";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -23,10 +23,12 @@ export default class DetailsPage extends Component {
   });
 
   saveFile = () => {
-    Axios.get(
-      `http://localhost:3000/saveRdf/${this.props.document.uri.value}`
-    ).then(res => {
+    var uri = encodeURIComponent(this.props.document.uri.value);
+    console.log(uri);
+
+    Axios.get(`http://localhost:3000/query/download/${uri}`).then(res => {
       console.log(res);
+      FileDownload(res.data, "result.rdf");
     });
   };
 
