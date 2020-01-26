@@ -11,7 +11,8 @@ import {
   Avatar,
   InputBase,
   IconButton,
-  Paper
+  Paper,
+  ThemeProvider
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -119,12 +120,29 @@ export default function HomePage() {
               onDelete={context.removeType}
             />
           ) : null}
-
-          <Grid container alignItems="center" justify="space-between">
-            {context.results.map(e => (
-              <QueryDocument key={i++} document={e}></QueryDocument>
-            ))}
-          </Grid>
+          {context.results.length === 0 && context.loadRequest === false ? (
+            <Grid item style={{ minHeight: "400px" }}>
+              <img
+                container
+                justify="center"
+                alignItems="center"
+                src="https://tesseractdesigns.in/images/noresults.png"
+                alt="no-results"
+                width="240px"
+              ></img>
+            </Grid>
+          ) : (
+            <Grid
+              container
+              alignItems="center"
+              justify="space-between"
+              style={{ minHeight: "400px" }}
+            >
+              {context.results.map(e => (
+                <QueryDocument key={i++} document={e}></QueryDocument>
+              ))}
+            </Grid>
+          )}
           <footer>
             <Footer></Footer>
           </footer>

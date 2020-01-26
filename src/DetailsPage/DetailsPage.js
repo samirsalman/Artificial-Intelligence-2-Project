@@ -37,6 +37,7 @@ export default class DetailsPage extends Component {
       <div>
         <Dialog
           fullScreen
+          scroll="body"
           open={this.props.open}
           TransitionComponent={this.Transition}
           onClose={() => this.props.onClose()}

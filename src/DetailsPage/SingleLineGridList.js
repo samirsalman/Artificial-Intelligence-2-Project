@@ -72,7 +72,9 @@ export default class SingleLineGridList extends React.Component {
 
   componentDidMount() {
     Axios.get(
-      `http://localhost:3000/query/searchRelated/${this.props.document.title}`
+      `http://localhost:3000/query/searchRelated/${
+        this.props.document.title
+      }?uri=${encodeURIComponent(this.props.document.uri.value)}`
     ).then(res => {
       console.log(res);
       this.setState({

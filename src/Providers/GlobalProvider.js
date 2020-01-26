@@ -35,7 +35,6 @@ export default class GlobalProvider extends Component {
 
   changeTheme = e => {
     this.setState({ dark: !this.state.dark });
-    localStorage.removeItem("theme");
     localStorage.setItem("theme", this.state.dark);
     console.log(localStorage.getItem("theme"));
   };
@@ -187,7 +186,8 @@ export default class GlobalProvider extends Component {
       if (search !== "") {
         console.log(e);
         this.setState({
-          results: []
+          results: [],
+          loadRequest: true
         });
 
         console.log("REQUest");
@@ -201,7 +201,8 @@ export default class GlobalProvider extends Component {
           ).then(res => {
             console.log(res);
             this.setState({
-              results: res.data
+              results: res.data,
+              loadRequest: false
             });
           });
         } else if (this.state.current === 1) {
@@ -214,7 +215,8 @@ export default class GlobalProvider extends Component {
           ).then(res => {
             console.log(res);
             this.setState({
-              results: res.data
+              results: res.data,
+              loadRequest: false
             });
           });
         } else {
@@ -227,7 +229,8 @@ export default class GlobalProvider extends Component {
           ).then(res => {
             console.log(res);
             this.setState({
-              results: res.data
+              results: res.data,
+              loadRequest: false
             });
           });
         }
@@ -238,7 +241,8 @@ export default class GlobalProvider extends Component {
         Axios.get(this.buildQuery()).then(res => {
           console.log(res);
           this.setState({
-            results: res.data
+            results: res.data,
+            loadRequest: false
           });
         });
       }
