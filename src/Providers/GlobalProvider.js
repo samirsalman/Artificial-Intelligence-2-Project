@@ -233,8 +233,13 @@ export default class GlobalProvider extends Component {
         }
       } else {
         this.setState({
-          lastSearch: `http://localhost:3000/query/all`,
-          results: this.state.all
+          lastSearch: `http://localhost:3000/query/all`
+        });
+        Axios.get(this.buildQuery()).then(res => {
+          console.log(res);
+          this.setState({
+            results: res.data
+          });
         });
       }
     } else {

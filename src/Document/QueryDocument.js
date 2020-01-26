@@ -70,6 +70,12 @@ export default class QueryDocument extends Component {
     this.setState({ detailsDialog: true });
   };
 
+  closeDelete = e => {
+    this.setState({
+      deleteDialog: false
+    });
+  };
+
   render() {
     console.log(this.props.document.type.value.split("/").slice(-1)[0]);
 
@@ -118,6 +124,7 @@ export default class QueryDocument extends Component {
                 open={this.state.deleteDialog}
                 title={this.props.document.title}
                 uri={this.props.document.uri.value}
+                onClose={e => this.closeDelete(e)}
               ></DeleteDialog>
               <Card style={{ margin: "24px", width: "340px" }}>
                 <Link

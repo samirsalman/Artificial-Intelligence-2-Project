@@ -9,7 +9,7 @@ import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import { Details } from "@material-ui/icons";
-
+import SingleLineGridList from "./SingleLineGridList";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -52,8 +52,13 @@ export default class DetailsPage extends Component {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6">Details</Typography>
-              <Button autoFocus color="inherit" onClick={() => this.saveFile()}>
-                save
+              <Button
+                autoFocus
+                style={{ right: "12px", position: "absolute" }}
+                color="inherit"
+                onClick={() => this.saveFile()}
+              >
+                save RDF
               </Button>
             </Toolbar>
           </AppBar>
@@ -98,6 +103,13 @@ export default class DetailsPage extends Component {
             </ListItem>
             <Divider />
           </List>
+          <h3 style={{ margin: "24px" }}>
+            Forse Pottrebbe interessarti anche:{" "}
+          </h3>
+          <SingleLineGridList
+            style={{ marginLeft: "24px" }}
+            document={this.props.document}
+          ></SingleLineGridList>
         </Dialog>
       </div>
     );

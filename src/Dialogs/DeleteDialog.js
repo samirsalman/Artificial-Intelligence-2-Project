@@ -26,8 +26,6 @@ export default class DeleteDialog extends React.Component {
 
   closeDeleteDialog = uriParam => {
     let value = this.context;
-    console.log("CLOSE DELETE DIALOG");
-    console.log("URIPARAM", uriParam);
 
     if (uriParam !== null) {
       if (uriParam !== false) {
@@ -54,16 +52,11 @@ export default class DeleteDialog extends React.Component {
           var temp = value.buildQuery();
           value.queryRequest(null, temp, true);
         });
-      } else {
-        this.setState({
-          error: true
-        });
       }
     }
 
-    this.setState({
-      open: false
-    });
+    this.props.onClose();
+    console.log("CLOSED", this.props.open);
   };
 
   render() {
@@ -80,7 +73,7 @@ export default class DeleteDialog extends React.Component {
             </Snackbar>
           ) : (
             <Dialog
-              open={this.state.open}
+              open={this.props.open}
               onClose={e => this.closeDeleteDialog(null)}
               aria-labelledby="form-dialog-title"
             >

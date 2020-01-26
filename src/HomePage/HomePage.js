@@ -119,6 +119,7 @@ export default function HomePage() {
               onDelete={context.removeType}
             />
           ) : null}
+
           <Grid container alignItems="center" justify="space-between">
             {context.results.map(e => (
               <QueryDocument key={i++} document={e}></QueryDocument>
