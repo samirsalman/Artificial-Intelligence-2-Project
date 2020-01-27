@@ -16,8 +16,26 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import Copy from 'copy-to-clipboard';
 
 export default class DetailsPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { openSnack: false }
+  }
+
+  openSnackbar = (el) => {
+    this.setState({ openSnack: true })
+    Copy(this.props.document[el]);
+  }
+
+  closeSnackbar = () => {
+    this.setState({ openSnack: false })
+  }
+
   Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
@@ -35,6 +53,11 @@ export default class DetailsPage extends Component {
   render() {
     return (
       <div>
+        <Snackbar open={this.state.openSnack} autoHideDuration={2000} onClose={() => this.closeSnackbar()}>
+          <Alert onClose={() => this.closeSnackbar()} severity="success">
+            TEXT COPIED TO CLIPBOARD!
+        </Alert>
+        </Snackbar>
         <Dialog
           fullScreen
           scroll="body"
@@ -64,11 +87,12 @@ export default class DetailsPage extends Component {
             </Toolbar>
           </AppBar>
           <List>
-            <ListItem >
+            <ListItem button>
               <ListItemIcon>
                 <Details></Details>
               </ListItemIcon>
               <ListItemText
+                onClick={() => this.openSnackbar("uri")}
                 primary="URI"
                 secondary={this.props.document["uri"].value}
               />
@@ -80,11 +104,12 @@ export default class DetailsPage extends Component {
                 el !== "type" &&
                 el !== "uri" ? (
                   <div>
-                    <ListItem >
+                    <ListItem button>
                       <ListItemIcon>
                         <Details></Details>
                       </ListItemIcon>
                       <ListItemText
+                        onClick={() => this.openSnackbar(el)}
                         primary={el.toUpperCase()}
                         secondary={this.props.document[el].toString()}
                       />
@@ -93,11 +118,12 @@ export default class DetailsPage extends Component {
                   </div>
                 ) : null
             )}
-            <ListItem >
+            <ListItem button>
               <ListItemIcon>
                 <Details></Details>
               </ListItemIcon>
               <ListItemText
+                onClick={() => this.openSnackbar("type")}
                 primary="TYPE"
                 secondary={this.props.document["type"].value}
               />
