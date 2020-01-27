@@ -74,7 +74,7 @@ export default class SingleLineGridList extends React.Component {
     var splitted = this.props.document.uri.value.split("/");
     Axios.get(
       `http://localhost:3000/query/searchRelated/${
-      this.props.document.title
+        this.props.document.title
       }?uri=${encodeURIComponent(splitted[splitted.length - 1])}`
     ).then(res => {
       console.log(res);
@@ -105,6 +105,7 @@ export default class SingleLineGridList extends React.Component {
           style={{
             overflow: "auto !important",
             flexWrap: "nowrap",
+            marginBottom: "32px",
             // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
             transform: "translateZ(0)"
           }}
@@ -121,7 +122,9 @@ export default class SingleLineGridList extends React.Component {
               ></img>
               <GridListTileBar
                 title={tile.title}
-                subtitle={tile.authors}
+                subtitle={
+                  tile.authors !== "" ? tile.authors : "Autori non disponibili"
+                }
                 style={{ background: "#2589bd" }}
               />
             </GridListTile>
