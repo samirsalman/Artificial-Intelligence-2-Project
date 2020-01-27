@@ -24,11 +24,6 @@
   color: white;
 }
 
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* make scrollbar transparent */
-}
-
 footer {
   background-color: #2589bd;
   min-height: 200;

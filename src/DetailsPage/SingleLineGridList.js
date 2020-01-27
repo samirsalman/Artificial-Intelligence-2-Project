@@ -6,7 +6,6 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Axios from "axios";
-import "../App.css";
 import DetailsPage from "../DetailsPage/DetailsPage";
 
 const useStyles = makeStyles(theme => ({
@@ -93,8 +92,7 @@ export default class SingleLineGridList extends React.Component {
         style={{
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "space-around",
-          overflow: "hidden"
+          justifyContent: "space-around"
         }}
       >
         <DetailsPage
