@@ -18,23 +18,26 @@ import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import Copy from 'copy-to-clipboard';
+import Copy from "copy-to-clipboard";
 
 export default class DetailsPage extends Component {
-
   constructor(props) {
     super(props);
-    this.state = { openSnack: false }
+    this.state = { openSnack: false };
   }
 
-  openSnackbar = (el) => {
-    this.setState({ openSnack: true })
-    Copy(this.props.document[el]);
-  }
+  openSnackbar = el => {
+    this.setState({ openSnack: true });
+    if (typeof this.props.document[el] === "string") {
+      Copy(this.props.document[el]);
+    } else {
+      Copy(this.props.document[el].value);
+    }
+  };
 
   closeSnackbar = () => {
-    this.setState({ openSnack: false })
-  }
+    this.setState({ openSnack: false });
+  };
 
   Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -53,10 +56,14 @@ export default class DetailsPage extends Component {
   render() {
     return (
       <div>
-        <Snackbar open={this.state.openSnack} autoHideDuration={2000} onClose={() => this.closeSnackbar()}>
+        <Snackbar
+          open={this.state.openSnack}
+          autoHideDuration={2000}
+          onClose={() => this.closeSnackbar()}
+        >
           <Alert onClose={() => this.closeSnackbar()} severity="success">
             TEXT COPIED TO CLIPBOARD!
-        </Alert>
+          </Alert>
         </Snackbar>
         <Dialog
           fullScreen
@@ -101,22 +108,22 @@ export default class DetailsPage extends Component {
 
             {Object.keys(this.props.document).map(el =>
               this.props.document[el] !== "" &&
-                el !== "type" &&
-                el !== "uri" ? (
-                  <div>
-                    <ListItem button>
-                      <ListItemIcon>
-                        <Details></Details>
-                      </ListItemIcon>
-                      <ListItemText
-                        onClick={() => this.openSnackbar(el)}
-                        primary={el.toUpperCase()}
-                        secondary={this.props.document[el].toString()}
-                      />
-                    </ListItem>
-                    <Divider />
-                  </div>
-                ) : null
+              el !== "type" &&
+              el !== "uri" ? (
+                <div>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <Details></Details>
+                    </ListItemIcon>
+                    <ListItemText
+                      onClick={() => this.openSnackbar(el)}
+                      primary={el.toUpperCase()}
+                      secondary={this.props.document[el].toString()}
+                    />
+                  </ListItem>
+                  <Divider />
+                </div>
+              ) : null
             )}
             <ListItem button>
               <ListItemIcon>
