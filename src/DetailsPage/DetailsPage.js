@@ -64,7 +64,7 @@ export default class DetailsPage extends Component {
             </Toolbar>
           </AppBar>
           <List>
-            <ListItem button>
+            <ListItem >
               <ListItemIcon>
                 <Details></Details>
               </ListItemIcon>
@@ -77,23 +77,23 @@ export default class DetailsPage extends Component {
 
             {Object.keys(this.props.document).map(el =>
               this.props.document[el] !== "" &&
-              el !== "type" &&
-              el !== "uri" ? (
-                <div>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <Details></Details>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={el.toUpperCase()}
-                      secondary={this.props.document[el].toString()}
-                    />
-                  </ListItem>
-                  <Divider />
-                </div>
-              ) : null
+                el !== "type" &&
+                el !== "uri" ? (
+                  <div>
+                    <ListItem >
+                      <ListItemIcon>
+                        <Details></Details>
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={el.toUpperCase()}
+                        secondary={this.props.document[el].toString()}
+                      />
+                    </ListItem>
+                    <Divider />
+                  </div>
+                ) : null
             )}
-            <ListItem button>
+            <ListItem >
               <ListItemIcon>
                 <Details></Details>
               </ListItemIcon>
