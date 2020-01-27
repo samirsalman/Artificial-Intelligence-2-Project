@@ -6,6 +6,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Axios from "axios";
+import "../App.css";
 import DetailsPage from "../DetailsPage/DetailsPage";
 
 const useStyles = makeStyles(theme => ({
@@ -103,7 +104,7 @@ export default class SingleLineGridList extends React.Component {
         ></DetailsPage>
         <GridList
           style={{
-            overflow: "auto !important",
+            overflow: "scroll",
             flexWrap: "nowrap",
             marginBottom: "32px",
             // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.

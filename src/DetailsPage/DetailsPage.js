@@ -141,7 +141,9 @@ export default class DetailsPage extends Component {
             Forse Pottrebbe interessarti anche:{" "}
           </h3>
           <SingleLineGridList
-            style={{ marginBottom: "32px" }}
+            style={{
+              marginBottom: "32px"
+            }}
             document={this.props.document}
           ></SingleLineGridList>
         </Dialog>
