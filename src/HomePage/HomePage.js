@@ -107,7 +107,7 @@ export default function HomePage() {
             direction="row"
             alignItems="center"
             justify="space-evenly"
-            style={{ margin: "24px" }}
+            style={{ marginTop: "24px", marginBottom: "24px" }}
           >
             <p
               style={{
