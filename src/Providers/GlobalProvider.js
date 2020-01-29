@@ -9,6 +9,9 @@ export default class GlobalProvider extends Component {
     selectedDetails: null,
     dark: false,
     open: false,
+    book: 0,
+    article: 0,
+    inproceeding: 0,
     orderBy: 0,
     success: false,
     error: false,
@@ -271,6 +274,27 @@ export default class GlobalProvider extends Component {
         this.setState({
           ready: true
         });
+
+        Axios.get(`http://localhost:3000/query/numberOf/book`).then(res => {
+          this.setState({
+            book: res.data
+          });
+
+          Axios.get(`http://localhost:3000/query/numberOf/article`).then(
+            res => {
+              this.setState({
+                article: res.data
+              });
+              Axios.get(
+                `http://localhost:3000/query/numberOf/inproceedings`
+              ).then(res => {
+                this.setState({
+                  inproceeding: res.data
+                });
+              });
+            }
+          );
+        });
       })
       .catch(error => {
         console.log(error);
@@ -394,6 +418,9 @@ export default class GlobalProvider extends Component {
           error: this.state.error,
           success: this.state.success,
           loadRequest: this.state.loadRequest,
+          book: this.state.book,
+          article: this.state.article,
+          inproceeding: this.state.inproceeding,
           type: this.state.type,
           year: this.state.year,
           ready: this.state.ready,

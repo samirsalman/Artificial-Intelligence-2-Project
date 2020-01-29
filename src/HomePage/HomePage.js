@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReactComponent as Moon } from "../assets/moon.svg";
 import "../App.css";
 import GlobalContext from "../Providers/Context";
@@ -102,6 +102,38 @@ export default function HomePage() {
               <Tab label="isbn/issn" value={2} />
             </Tabs>
           </header>
+          <Grid
+            container
+            direction="row"
+            alignItems="center"
+            justify="space-evenly"
+            style={{ margin: "24px" }}
+          >
+            <p
+              style={{
+                textAlign: "left",
+                color: context.dark ? "#fff" : "#000"
+              }}
+            >
+              Book : {context.book.toString()}
+            </p>
+            <p
+              style={{
+                textAlign: "left",
+                color: context.dark ? "#fff" : "#000"
+              }}
+            >
+              Articles : {context.article.toString()}
+            </p>
+            <p
+              style={{
+                textAlign: "left",
+                color: context.dark ? "#fff" : "#000"
+              }}
+            >
+              InProceedings : {context.inproceeding.toString()}
+            </p>
+          </Grid>
           <SearchBar></SearchBar>
           {context.year !== null ? (
             <Chip
@@ -111,7 +143,6 @@ export default function HomePage() {
               onDelete={context.removeYear}
             />
           ) : null}
-
           {context.type !== null ? (
             <Chip
               style={{ margin: "14px" }}
