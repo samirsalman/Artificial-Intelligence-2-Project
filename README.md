@@ -8,10 +8,10 @@ It's a University Project ***(Master in Computer Science)*** for IA2 course to v
 
 ## Authors
 
-Samir Salman
-Simone Giorgioni 
-Manuel Gallucci
-Matteo Domenico Lepore
+***Samir Salman***,
+***Simone Giorgioni***, 
+***Manuel Gallucci***,
+***Matteo Domenico Lepore***
 
 Dott. Armando Stellato (Professor)
 
